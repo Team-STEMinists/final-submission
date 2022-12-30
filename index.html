@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>MoveMate</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper" class="fade-in">
+
+				<!-- Intro -->
+					<div id="intro">
+						<a href="https://imgbb.com/"><img src="https://i.ibb.co/G7Dddf1/aeabc67e-c616-45b8-a7fb-30cc0340044d-removebg-preview.png" alt="aeabc67e-c616-45b8-a7fb-30cc0340044d-removebg-preview" border="0" width="200" height="200"></a>
+						<h1>
+						MoveMate</h1>
+						<p>An Exercise Detection and Repetition Counting Module for Dumbbells<br />
+					
+						<ul class="actions">
+							<li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
+						</ul>
+					</div>
+					
+				<!-- Header -->
+					<header id="header">
+						
+						<a href="index.html" class="logo">MoveMate</a>
+					</header>
+
+				<!-- Nav -->
+					
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Featured Post -->
+							<article class="post featured">
+								<header class="major">
+									
+									<h2>About the Project</h2>
+									<p>We are working on the idea of creating a seamless workout experience in
+										gyms using IoT-based retrofittable modules on exercise equipment that can
+										track workouts automatically for the user. This was the main motivation for
+										pursuing this topic for the final project.</p>
+								</header>
+								<a href="https://ibb.co/WP577d3"><img src="https://i.ibb.co/X3L66d4/block-diagram.png" alt="block-diagram" border="0"></a>
+								<ul class="actions special">
+								</ul>
+								<p>This module uses data from accelerometer and gyroscope to detect the 
+									exercise the user is performing and count the repetitions. 
+								</p>
+
+								<h2>The Team</h2>
+								<br>
+								<a href="https://ibb.co/5FSx58H"><img src="https://i.ibb.co/cLZXNFn/team.jpg" alt="team" border="0"></a><br /><a target='_blank' href='https://imgbb.com/'></a><br />
+								<p style="text-align: center;">From left - Saurabh Parulekar, Essa Alkhunayn, and Amogh Gajare</p>
+								<br>
+								<h2>The final setup</h2>
+								<a href="https://ibb.co/6R4PyxX"><img src="https://i.ibb.co/kgh8Gfm/1.jpg" alt="1" border="0"></a>
+<a href="https://ibb.co/Tr0Wkyq"><img src="https://i.ibb.co/25MZyJY/2.jpg" alt="2" border="0"></a>
+								
+
+
+
+<h2>Algorithm</h2>
+								<p>For developing the algorithm for repetition counting and exercise detection, we collected the accelerometer and gyroscope data from Pico4ML on-board IMU.
+
+								</p>
+									<a href="https://imgbb.com/"><img src="https://i.ibb.co/NY3K5Z1/image.png" alt="image" border="0"></a>
+									<a href="https://imgbb.com/"><img src="https://i.ibb.co/xg3R8s9/image.png" alt="image" border="0"></a>
+
+<p>We found that Y-axis and Z-axis data is relevant for exercise detection, whereas X-axis data is not very relevant for exercise detection, but can be used for form correction in the future.
+</p>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/DL2xBYz/image.png" alt="image" border="0"></a><br /><a target='_blank' href='https://imgbb.com/'></a><br />
+<p>We found that there is a clear distinction between values of peak-to-peak amplitudes of the accelerometer data of both the exercises.
+</p>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/2hV9DYF/image.png" alt="image" border="0"></a><br /><a target='_blank' href='https://imgbb.com/'></a><br />
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/c3w92LR/image.png" alt="image" border="0"></a><br /><a target='_blank' href='https://imgbb.com/'></a><br />
+<p>This seems to be consistent in a particular range of values for multiple repetitions. So, we use these values to detect the exercise.
+
+	For repetition counting, we use Gyroscope data and find that X-axis data is relevant for repetition counting, Y and Z axis Gyroscope data cannot be used directly without cleaning the data for repetition counting.
+	</p>
+	<a href="https://imgbb.com/"><img src="https://i.ibb.co/98ggDHX/image.png" alt="image" border="0"></a><br /><a target='_blank' href='https://imgbb.com/'></a><br />
+	<p>From the gyroscope data, it is possible to count the repetitions by considering the X-axis Gyroscope data. We observe that the X-axis gyroscope data averages at nearly zero, so we count repetitions by zero-crossing detection.
+
+	</p>
+
+<h2>Implementation</h2>
+	<a href="https://ibb.co/ZcNwBcx"><img src="https://i.ibb.co/wpYbSp4/image.png" alt="image" border="0"></a><br /><a target='_blank' href='https://imgbb.com/'></a><br />
+<br>
+	<a href="https://ibb.co/SQz0gQW"><img src="https://i.ibb.co/s5ZQ45k/Code-Flowcharrt-3-drawio.png" alt="Code-Flowcharrt-3-drawio" border="0"></a>
+
+
+<p>
+
+	1) The code initializes all the sensors as well as sends initialization message via Bluetooth to the GUI
+	<br><br>
+	2) After Initialization it waits for RFID card, once a RFID card is read a loop is initialize which calculates the repetitions done by the user, the loop runs for 40 secs and sends repetition data via Bluetooth to the GUI
+	<br><br>
+	3) Once the loop is terminated Exercise is detected from the data collected and sent via Bluetooth to the GUI
+	
+</p>
+
+<h2>Graphical User Interface</h2>
+<br>
+<a href="https://ibb.co/RhTxPNQ"><img src="https://i.ibb.co/YDBz8Xf/GUI-In-action.png" alt="GUI-In-action" border="0"></a><br /><a target='_blank' href='https://imgbb.com/'></a><br />
+<br>
+
+<p>Repetition: Repetition is continuously sent as and when it is incremented
+	The Center Progress bar and Digits show a 40 secs timer in which the user need to perform maximum number of repetitions
+	Exercise: After the 40 sec timer is completed the data is analysed and the field is updated accordingly to Bicep Curls or Lateral raises
+	The Bottom test displays the Name of the user who has scanned their RFID tag on the movemate device.
+	</p>
+
+	<p>
+
+		1) The GUI consists of 3 files, E7.py, GUI.py, Bluetooth.py
+		<br><br>
+2) E7.py is the main file which needs to be executed, this files initializes the GUI and start individual threads for parsing the Bluetooth data
+<br><br>
+3) GUI.py file contains the GUI formatting, when this file is called by the E7.py file, it will create the GUI, GUI runs on a separate thread initialized by the E7.py file
+<br><br>
+4) Bluetooth.py file contains a serial reader which reads the Bluetooth data from the laptop Bluetooth and a parser. The parser waits for commands from the device and displays the received data accordingly
+<br><br>
+5) Threading becomes essential here as the GUI is a looping code, it needs to continue to loop otherwise the GUI gets stuck, for this reasons a separate thread is needed to run the Bluetooth data receiver and parser
+<br><br>
+	</p>
+
+	<h2>Challenges</h2>
+	<p>1) One of the main challenges we faced during our embedded course project was designing the circuit and selecting the appropriate sensors. We had to come up with multiple proposals and carefully consider which sensors would best meet the goals of our system.
+<br>
+		2) The second challenge we faced was building the code to connect each sensor to the microcontroller RP2040. This required a lot of attention to detail and careful planning, as we had to ensure that the code was properly configured and optimized for the sensors and microcontroller we were using.
+		<br>
+		3)The third challenge we faced was with the processing part of the project. We used a simple algorithm to process the data from the sensors, but there were other algorithms that could have potentially provided better results. However, these algorithms were beyond our capabilities and we didn't have enough time to explore them.
+		<br>
+		4) Overall, these challenges required us to have a good understanding of circuit design, sensor selection, and coding, and to be able to troubleshoot and problem-solve when issues arose. Despite some initial difficulties, we were able to overcome these challenges and complete our project successfully, which helped us to develop our skills and confidence in working with embedded systems.
+	</p>
+
+
+	<h2>Leaderboard</h2>
+	<a href="https://ibb.co/ZYnYn87"><img src="https://i.ibb.co/ww9w9Wj/Leaderboard-Bicep-Curls.png" alt="Leaderboard-Bicep-Curls" border="0"></a>
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/kHFmQ6Y/Leaderboard-Lateral-Raises.png" alt="Leaderboard-Lateral-Raises" border="0"></a>
+
+
+									
+								
+							</article>
+
+						
+
+						<!-- Footer -->
+							
+				
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
